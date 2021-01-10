@@ -1,5 +1,3 @@
--- set package
-package.path= 'D:/Software/Programming/projects/lua/game_engine/?.lua'
 
 -- require objects
 local IMPORTS = require("imports")
