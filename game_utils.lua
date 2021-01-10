@@ -36,4 +36,32 @@ game_utils.create_basic_material = function(sceneLayer)
     return materialObject:getUuid()
 end
 
+game_utils.create_material = function(sceneLayer, name, texture, normal_texture)
+    local materialObject = luajava.newInstance("com.boc_dev.lge_model.generated.components.MaterialObject",
+            sceneLayer:getRegistry(),
+            name,
+            luajava.newInstance( "com.boc_dev.maths.objects.vector.Vec3f", 1, 1, 1),
+            1,
+            1,
+            luajava.newInstance( "com.boc_dev.maths.objects.vector.Vec3f", 1, 1, 1)
+    )
+
+    local textureObjectVisual = luajava.newInstance("com.boc_dev.lge_model.generated.components.TextureObject",
+            sceneLayer:getRegistry(),
+            texture,
+            texture
+    )
+
+    local normalMapObject = luajava.newInstance("com.boc_dev.lge_model.generated.components.NormalMapObject",
+            sceneLayer:getRegistry(),
+            normal_texture,
+            normal_texture
+    )
+
+    textureObjectVisual:getUpdater():setParent(materialObject):sendUpdate()
+    normalMapObject:getUpdater():setParent(materialObject):sendUpdate()
+
+    return materialObject:getUuid()
+end
+
 return game_utils

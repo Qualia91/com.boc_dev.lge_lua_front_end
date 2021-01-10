@@ -7,7 +7,9 @@ local imports = {
     SKYBOX_TYPE = luajava.bindClass("com.boc_dev.lge_model.generated.enums.SkyboxType"),
     CAMERA_PROJECTION_TYPE = luajava.bindClass("com.boc_dev.lge_model.generated.enums.CameraProjectionType"),
     CAMERA_OBJECT_TYPE = luajava.bindClass("com.boc_dev.lge_model.generated.enums.CameraObjectType"),
-    MATH = luajava.bindClass("java.lang.Math")
+    FONT_ALIGNMENT = luajava.bindClass("com.boc_dev.lge_model.generated.enums.FontAlignment"),
+    MATH = luajava.bindClass("java.lang.Math"),
+    FOG = luajava.bindClass("com.boc_dev.graphics_library.objects.lighting.Fog")
 
 }
 

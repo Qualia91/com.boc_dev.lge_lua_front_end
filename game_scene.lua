@@ -5,10 +5,13 @@ local GAME_CREATION = require("game_creation")
 local GAME_UTILS = require("game_utils")
 
 -- require scenes
-local boid_scene = require("boid_layer")
+local boid_layer = require("boid_layer")
+local gui_layer = require("gui_layer")
 
 -- create scenes as layers, with a layer name
-local boid_layer = boid_scene.create("MAIN")
+local boid_scene = boid_layer.create("MAIN")
+print(gui_layer)
+local gui_scene = gui_layer.create("GUI")
 
 -- create iterator functions for each of the layers
 -- inputs are layer name and a function to run
@@ -23,8 +26,14 @@ GAME_CREATION.set_scene_iterator_function(
         end
     end)
 
+GAME_CREATION.set_scene_iterator_function(
+    "GUI",
+    function(time, registry)
+        
+    end)
+
 -- add layers to scene in order of rendering
-local scenes = {boid_layer}
+local scenes = {boid_scene, gui_scene}
 
 -- create window init params
 local wip = luajava.newInstance("com.boc_dev.graphics_library.WindowInitialisationParametersBuilder")
