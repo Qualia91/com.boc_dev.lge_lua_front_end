@@ -61,100 +61,74 @@ gui_layer.create = function(layer_name)
 
     listObject:getUpdater():setParent(guiSceneTransformObject):sendUpdate();
 
+    for j = 1, 5 do
 
-    for i = 1, 3 do
+        local build = transformBuilder:reset():build();
 
-        local listTransform = transformBuilder:reset():build();
+        local newTransformObject = luajava.newInstance("com.boc_dev.lge_model.generated.components.TransformObject",
+                mainSceneLayer:getRegistry(),
+                "TransformObject" .. j,
+                build:getPosition(),
+                IMPORTS.QUATERNION_F.Identity,
+                build:getScale());
 
-            local listTransformObject = luajava.newInstance("com.boc_dev.lge_model.generated.components.TransformObject",
-                    mainSceneLayer:getRegistry(),
-                    "ListTransformObject",
-                    listTransform:getPosition(),
-                    listTransform:getRotation(),
-                    listTransform:getScale());
+        local newGeometryObject = luajava.newInstance("com.boc_dev.lge_model.generated.components.GeometryObject",
+                mainSceneLayer:getRegistry(),
+                "Geometry" .. j,
+                IMPORTS.MATRIX_4F:Scale(luajava.newInstance( "com.boc_dev.maths.objects.vector.Vec3f", 200, 200, 200)),
+                basicMaterial,
+                "DEFAULT_SQUARE"
+        );
 
-            local subListObject = luajava.newInstance("com.boc_dev.lge_model.generated.components.ListObject",
-                    mainSceneLayer:getRegistry(),
-                    "SubListObject",
-                    0,
-                    -100,
-                    0,
-                    205
-            );
+        local selectableObject = luajava.newInstance("com.boc_dev.lge_model.generated.components.SelectableObject",
+                mainSceneLayer:getRegistry(),
+                "Selectable " .. j,
+                false,
+                selectedMaterial,
+                basicMaterial
+        );
 
-            subListObject:getUpdater():setParent(listTransformObject):sendUpdate();
-            listTransformObject:getUpdater():setParent(listObject):sendUpdate();
+        local pickableObject = luajava.newInstance("com.boc_dev.lge_model.generated.components.PickableObject",
+                mainSceneLayer:getRegistry(),
+                "Pickable " .. j,
+                true
+        );
 
-        for j = 1, 3 do
+        local buttonObject = luajava.newInstance("com.boc_dev.lge_model.generated.components.ButtonObject",
+                mainSceneLayer:getRegistry(),
+                "buttonObj " .. j,
+                true,
+                "Button Pressed " .. j
+        );
 
-            local build = transformBuilder:reset():build();
+        local textTransform = transformBuilder:reset()
+                :setPosition(luajava.newInstance( "com.boc_dev.maths.objects.vector.Vec3f", 1, 0.5, 0.8))
+                :build();
 
-            local newTransformObject = luajava.newInstance("com.boc_dev.lge_model.generated.components.TransformObject",
-                    mainSceneLayer:getRegistry(),
-                    "TransformObject" .. i .. j,
-                    build:getPosition(),
-                    IMPORTS.QUATERNION_F.Identity,
-                    build:getScale());
+        local textTransformObject = luajava.newInstance("com.boc_dev.lge_model.generated.components.TransformObject",
+                mainSceneLayer:getRegistry(),
+                "TransformObject" .. j,
+                textTransform:getPosition(),
+                IMPORTS.QUATERNION_F:RotationZ(IMPORTS.MATH.PI),
+                textTransform:getScale());
 
-            local newGeometryObject = luajava.newInstance("com.boc_dev.lge_model.generated.components.GeometryObject",
-                    mainSceneLayer:getRegistry(),
-                    "Geometry" .. i .. j,
-                    IMPORTS.MATRIX_4F:Scale(luajava.newInstance( "com.boc_dev.maths.objects.vector.Vec3f", 200, 200, 200)),
-                    basicMaterial,
-                    "DEFAULT_SQUARE"
-            );
+        local guiTextObject = luajava.newInstance("com.boc_dev.lge_model.generated.components.TextObject",
+                mainSceneLayer:getRegistry(),
+                "ButtonText" .. j,
+                IMPORTS.FONT_ALIGNMENT.CENTER,
+                "montserrat_light",
+                20,
+                "Button " .. j
+        );
 
-            local selectableObject = luajava.newInstance("com.boc_dev.lge_model.generated.components.SelectableObject",
-                    mainSceneLayer:getRegistry(),
-                    "Selectable " .. i .. j,
-                    false,
-                    selectedMaterial,
-                    basicMaterial
-            );
+        textTransformObject:getUpdater():setParent(newTransformObject):sendUpdate();
+        guiTextObject:getUpdater():setParent(textTransformObject):sendUpdate();
+        newGeometryObject:getUpdater():setParent(newTransformObject):sendUpdate();
+        newTransformObject:getUpdater():setParent(listObject):sendUpdate();
 
-            local pickableObject = luajava.newInstance("com.boc_dev.lge_model.generated.components.PickableObject",
-                    mainSceneLayer:getRegistry(),
-                    "Pickable " .. i .. j,
-                    true
-            );
-
-            local buttonObject = luajava.newInstance("com.boc_dev.lge_model.generated.components.ButtonObject",
-                    mainSceneLayer:getRegistry(),
-                    "buttonObj " .. i .. j,
-                    true,
-                    "Button Pressed " .. i .. j
-            );
-
-            local textTransform = transformBuilder:reset()
-                    :setPosition(luajava.newInstance( "com.boc_dev.maths.objects.vector.Vec3f", 1, 0.5, 0.8))
-                    :build();
-
-            local textTransformObject = luajava.newInstance("com.boc_dev.lge_model.generated.components.TransformObject",
-                    mainSceneLayer:getRegistry(),
-                    "TransformObject" .. i .. j,
-                    textTransform:getPosition(),
-                    IMPORTS.QUATERNION_F:RotationZ(IMPORTS.MATH.PI),
-                    textTransform:getScale());
-
-            local guiTextObject = luajava.newInstance("com.boc_dev.lge_model.generated.components.TextObject",
-                    mainSceneLayer:getRegistry(),
-                    "ButtonText" .. i .. j,
-                    IMPORTS.FONT_ALIGNMENT.CENTER,
-                    "montserrat_light",
-                    20,
-                    "Button " .. i .. j
-            );
-
-            textTransformObject:getUpdater():setParent(newTransformObject):sendUpdate();
-            guiTextObject:getUpdater():setParent(textTransformObject):sendUpdate();
-            newGeometryObject:getUpdater():setParent(newTransformObject):sendUpdate();
-            newTransformObject:getUpdater():setParent(subListObject):sendUpdate();
-
-            pickableObject:getUpdater():setParent(newGeometryObject):sendUpdate();
-            selectableObject:getUpdater():setParent(newGeometryObject):sendUpdate();
-            buttonObject:getUpdater():setParent(newGeometryObject):sendUpdate();
-
-        end
+        pickableObject:getUpdater():setParent(newGeometryObject):sendUpdate();
+        selectableObject:getUpdater():setParent(newGeometryObject):sendUpdate();
+        buttonObject:getUpdater():setParent(newGeometryObject):sendUpdate();
 
     end
 

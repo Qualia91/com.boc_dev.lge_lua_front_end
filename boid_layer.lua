@@ -23,7 +23,7 @@ boid_layer.create = function(layer_name)
             IMPORTS.LIGHTING_TYPE.SPOT
     )
 
-    local lightObject = luajava.newInstance("com.boc_dev.lge_model.generated.components.LightObject",
+    local directLightObject = luajava.newInstance("com.boc_dev.lge_model.generated.components.LightObject",
             mainSceneLayer:getRegistry(),
             "MySecondLight",
             0.25,
